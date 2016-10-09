@@ -20,10 +20,10 @@ void generateArr(double *m, int s, int dif); // Генерация массива данных
 template< typename T >
 void printArr(T *a, int size) // Печать массива данных
 {
-	cout << "\t { ";
+	std::cout << "\t { ";
 	for (int i = 0; i < size; ++i)
-		cout << a[i] << " ";
-	cout << "}\n";
+		std::cout << a[i] << " ";
+	std::cout << "}\n";
 }
 //-----------------------------------------------------------------------------
 struct TestData // Структура данных для тестирования методов
