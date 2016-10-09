@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 #include "packcage.h"
 //-----------------------------------------------------------------------------
-#define SWAP(A, B) { TYPE T = A; A = B; B = T; }
+inline TYPE SWAP(TYPE A, TYPE B) { TYPE T = A; A = B; B = T; }
 //-----------------------------------------------------------------------------
 // Marcin Ciura's optimal sequence of increments for shell sort algorithm
 const int A102549[] = {1750, 701, 301, 132, 57, 23, 10, 4, 1}; 
