@@ -4,76 +4,88 @@
 #ifndef SORT_H
 #define SORT_H
 //-----------------------------------------------------------------------------
-template< typename T >
-void BubleSort(T *a, int size, bool type) // Сортировка пузырьком
+#include "packcage.h"
+//-----------------------------------------------------------------------------
+#define SWAP(A, B) { TYPE T = A; A = B; B = T; }
+//-----------------------------------------------------------------------------
+// Marcin Ciura's optimal sequence of increments for shell sort algorithm
+const int A102549[] = {1750, 701, 301, 132, 57, 23, 10, 4, 1}; 
+//-----------------------------------------------------------------------------
+template< typename T >                                 // Сортировка пузырьком
+void bubleSort(T *a, int size, bool type, TestData &td)
 {
-	int i, j, m = 0, n = 0;
+	td.type[td.count] = type;
+	int i, j;
 	for (i = size-1; i >= 0; --i) {
 		for (j = 0; j < i; j++) {
 			if ( (type) ? (a[j] > a[j+1]) : (a[j] < a[j+1]) ) {
 				SWAP(a[j], a[j+1]);
-				++m; // #
+				td.m[td.count]++; // #
 			}
-			++n; // #
+			td.n[td.count]++; // #
 		}
 	}
-	if (DBUG) cout << m << "/" << n << endl;
+	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >
-void QuietSort(T *a, int size, bool type) // Сортировка перестановками
+template< typename T >                             // Сортировка перестановками
+void quietSort(T *a, int size, bool type, TestData &td)
 {
-	int i, j, m = 0, n = 0;
+	td.type[td.count] = type;
+	int i, j;
 	for (i = 0; i < size; ++i) {
 		for (j = i+1; j < size; ++j) {
 			if ((type) ? (a[j] < a[i]) : (a[j] > a[i])) {
 				SWAP(a[i], a[j]);
-				++m; // #
+				td.m[td.count]++; // #
 			}
-			++n; // #
+			td.n[td.count]++; // #
 		}
 	}
-	if (DBUG) cout << m << "/" << n << endl;
+	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >
-void DwarfSort(T *a, int size, bool type) // Гномья сортировка
+template< typename T >                                     // Гномья сортировка
+void dwarfSort(T *a, int size, bool type, TestData &td)
 {
-	int i = 0, m = 0, n = 0;
+	td.type[td.count] = type;
+	int i = 0;
 	while (i < size) {
 		if (i == 0 || ((type)?(a[i - 1] <= a[i]):(a[i - 1] >= a[i]))) ++i;
 		else {
 			SWAP(a[i], a[i-1]);
-			++m; // #
+			td.m[td.count]++; // #
 			--i;
 		}
-		++n; // #
+		td.n[td.count]++; // #
 	}
-	if (DBUG) cout << m << "/" << n << endl;
+	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >
-void InsertSort(T *a, int size, bool type) // Сортировка вставками
+template< typename T >                                  // Сортировка вставками
+void inserSort(T *a, int size, bool type, TestData &td) 
 {
-	int i, j, m = 0, n = 0;
+	td.type[td.count] = type;
+	int i, j;
 	for (j = 1; j < size; ++j) {
 		T key = a[j];
 		i = j - 1;
 		while (i >= 0 && ((type)?(a[i] > key):(a[i] < key))) {
 			a[i+1] = a[i];
 			--i;
-			++n; // #
+			td.m[td.count]++; // #
 		}
 		a[i+1] = key;
-		++m; // #
+		td.n[td.count]++; // #
 	}
-	if (DBUG) cout << m << "/" << n << endl;
+	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >
-void ShellSort(T *a, int size, bool type) // Сортировка Шелла [Shell's d]
+template< typename T >                          // Сортировка Шелла [Shell's d]
+void shellSort(T *a, int size, bool type, TestData &td)
 {
-	int i, j, n = 0, m = 0;
+	td.type[td.count] = type;
+	int i, j;
 	for (int d = size/2; d > 0; d /= 2) {
 		for (i = d; i < size; ++i) {
 			T key = a[i];
@@ -81,19 +93,20 @@ void ShellSort(T *a, int size, bool type) // Сортировка Шелла [Shell's d]
 			while (j >= d && ((type)?(a[j-d] > key):(a[j-d] < key))) {
 				a[j] = a[j-d];
 				j -= d;
-				n++; // #
+				td.m[td.count]++; // #
 			}
 			a[j] = key;
-			m++; // #
+			td.n[td.count]++; // #
 		}
 	}
-	if (DBUG) cout << m << "/" << n << endl;
+	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >
-void SuperShellSort(T *a, int size, bool type) // Сортировка Шелла [Ciura's d]
+template< typename T >                          // Сортировка Шелла [Ciura's d]
+void superShellSort(T *a, int size, bool type, TestData &td)
 {
-	int i, j, m = 0, n = 0; 
+	td.type[td.count] = type;
+	int i, j; 
 	for (int d : A102549) {
 		for (i = d; i < size; ++i) {
 			T key = a[i];
@@ -101,13 +114,13 @@ void SuperShellSort(T *a, int size, bool type) // Сортировка Шелла [Ciura's d]
 			while (j >= d && ((type)?(a[j-d] > key):(a[j-d] < key))) {
 				a[j] = a[j-d];
 				j -= d;
-				n++; // #
+				td.m[td.count]++; // #
 			}
 			a[j] = key;
-			m++; // #
+			td.n[td.count]++; // #
 		}
 	}
-	if (DBUG) cout << m << "/" << n << endl;
+	td.count++;
 }
 //-----------------------------------------------------------------------------
 #endif /* SORT_H */

@@ -7,15 +7,34 @@
 #include <iostream>
 #include <ctime>
 //-----------------------------------------------------------------------------
-void Randomize();             // Первичная установка зерна генератора
+void randomize();             // Первичная установка зерна генератора
 int iRandom(int a, int b);    // Создать случайное целое число из [a, b]
 double dRandom(int a, int b); // Создать случайное дробное число из [a, b]
 //----------------------------------------------------------------------------
-void InputData(int &size, int &dif);         // Ввод первичных данных
-void GenerateArr(int *m, int s, int dif);    // Генерация массива данных (int)
-void GenerateArr(double *m, int s, int dif); // Генерация массива данных
-void PrintArr(int *a, int size);    // Печать массива данных (int)
-void PrintArr(double *a, int size); // Печать массива данных
+void printEndl();                            // Перевод строки
+void setup(bool &p, bool &d);                // Ввод констант
+void inputData(int &size, int &dif);         // Ввод первичных данных
+void generateArr(int *m, int s, int dif);    // Генерация массива данных (int)
+void generateArr(double *m, int s, int dif); // Генерация массива данных
+//-----------------------------------------------------------------------------
+template< typename T >
+void printArr(T *a, int size) // Печать массива данных
+{
+	cout << "\t { ";
+	for (int i = 0; i < size; ++i)
+		cout << a[i] << " ";
+	cout << "}\n";
+}
+//-----------------------------------------------------------------------------
+struct TestData // Структура данных для тестирования методов
+{
+	int m[3];       // Кол-во перестановок
+	int n[3];       // Кол-во сравнений
+	bool type[3];   // Тип сортировки
+	int count;      // Номер теста
+	TestData();     // Конструктор
+	void print(const char *comment);  // Метод печати
+};
 //-----------------------------------------------------------------------------
 #endif /* PACKCAGE_H */
 //-----------------------------------------------------------------------------

@@ -5,41 +5,56 @@
 //-----------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------
+typedef int TYPE; // Необходимый тип данных (int/double)
+bool PRINT = 0;   // Единоразовый вывод массива (Да/Нет)
+bool DEBUG = 0;   // Постоянный вывод массива (Да/Нет)
+//-----------------------------------------------------------------------------
+typedef void (*SORT)(TYPE *a, int size, bool type, TestData &td);
+//-----------------------------------------------------------------------------
+TestData testSort(SORT method, const TYPE *a, const int size)
+{
+	TYPE *b = new TYPE[size];        // Копия данных
+	memcpy(b, a, sizeof(TYPE)*size); // Копируем 
+	TestData td;                     // Инициализируем тестовые данные
+	if (DEBUG) printEndl();
+	method(b, size, 0, td);          // Тест 1: сортируем произвольный массив
+	if (DEBUG) printArr(b, size);
+	method(b, size, 1, td);          // Тест 2: сортируем инвертированный массив
+	if (DEBUG) printArr(b, size);
+	method(b, size, 1, td);          // Тест 3: сортируем отсортированный массив
+	if (DEBUG) printArr(b, size);
+	delete [] b;                     // Очистка памяти
+	return td;
+}
+//-----------------------------------------------------------------------------
 int main()
 {
 	int size, dif;
-	InputData(size, dif);
+	setup(PRINT, DEBUG);
+	inputData(size, dif);
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	TYPE *a = new TYPE[size], *backup = new TYPE[size];
-	GenerateArr(a, size, dif);
-	if (PRIN) PrintArr(a, size);
-	memcpy(backup, a, sizeof(TYPE)*size);
+	TYPE *a = new TYPE[size];
+	generateArr(a, size, dif);
+	if (PRINT) { printEndl(); printArr(a, size); }
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	BubleSort(a, size, 1);
-	if (PRIN) PrintArr(a, size);
+	SORT methods[6] = { bubleSort, 
+		                quietSort, 
+					    dwarfSort, 
+					    inserSort, 
+					    shellSort, 
+					    superShellSort };
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	memcpy(a, backup, sizeof(TYPE)*size);
+	const char *title[6] = { "Сортировка пузырьком\0",
+		                     "Сортировка перестановками\0",
+							 "Гномья сортировка\0",
+							 "Сортировка вставками\0",
+							 "Сортировка Шелла\0",
+							 "Cортировка Шелла (A102549)\0" };
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	QuietSort(a, size, 0);
-	if (PRIN) PrintArr(a, size);
+	for (int i = 0; i < 6; i++)
+		(testSort(methods[i], a, size)).print(title[i]);
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	memcpy(a, backup, sizeof(TYPE)*size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	DwarfSort(a, size, 1);
-	if (PRIN) PrintArr(a, size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	memcpy(a, backup, sizeof(TYPE)*size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	ShellSort(a, size, 0);
-	if (PRIN) PrintArr(a, size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	memcpy(a, backup, sizeof(TYPE)*size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	SuperShellSort(a, size, 1);
-	if (PRIN) PrintArr(a, size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	memcpy(a, backup, sizeof(TYPE)*size);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	delete [] a;
 	return 0;
 }
 //-----------------------------------------------------------------------------
