@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------
+п»ї//-----------------------------------------------------------------------------
 // File: sort.h
 //-----------------------------------------------------------------------------
 #ifndef SORT_H
@@ -6,14 +6,14 @@
 //-----------------------------------------------------------------------------
 #include "packcage.h"
 //-----------------------------------------------------------------------------
-typedef double TYPE; // Необходимый тип данных (int/double)
+typedef double TYPE; // РќРµРѕР±С…РѕРґРёРјС‹Р№ С‚РёРї РґР°РЅРЅС‹С… (int/double)
 //-----------------------------------------------------------------------------
 #define SWAP(A, B) { (A) = (A)+(B); (B) = (A)-(B); (A) = (A)-(B);  }
 //-----------------------------------------------------------------------------
 // Marcin Ciura's optimal sequence of increments for shell sort algorithm
 const int A102549[] = {1750, 701, 301, 132, 57, 23, 10, 4, 1}; 
 //-----------------------------------------------------------------------------
-template< typename T >                                 // Сортировка пузырьком
+template< typename T >                                 // РЎРѕСЂС‚РёСЂРѕРІРєР° РїСѓР·С‹СЂСЊРєРѕРј
 void bubleSort(T *a, int size, bool type, TestData &td)
 {
 	td.type[td.count] = type;
@@ -30,7 +30,7 @@ void bubleSort(T *a, int size, bool type, TestData &td)
 	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >                             // Сортировка перестановками
+template< typename T >                             // РЎРѕСЂС‚РёСЂРѕРІРєР° РїРµСЂРµСЃС‚Р°РЅРѕРІРєР°РјРё
 void quietSort(T *a, int size, bool type, TestData &td)
 {
 	td.type[td.count] = type;
@@ -47,7 +47,7 @@ void quietSort(T *a, int size, bool type, TestData &td)
 	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >                                     // Гномья сортировка
+template< typename T >                                     // Р“РЅРѕРјСЊСЏ СЃРѕСЂС‚РёСЂРѕРІРєР°
 void dwarfSort(T *a, int size, bool type, TestData &td)
 {
 	td.type[td.count] = type;
@@ -64,7 +64,7 @@ void dwarfSort(T *a, int size, bool type, TestData &td)
 	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >                                  // Сортировка вставками
+template< typename T >                                  // РЎРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё
 void inserSort(T *a, int size, bool type, TestData &td) 
 {
 	td.type[td.count] = type;
@@ -83,7 +83,7 @@ void inserSort(T *a, int size, bool type, TestData &td)
 	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >                          // Сортировка Шелла [Shell's d]
+template< typename T >                          // РЎРѕСЂС‚РёСЂРѕРІРєР° РЁРµР»Р»Р° [Shell's d]
 void shellSort(T *a, int size, bool type, TestData &td)
 {
 	td.type[td.count] = type;
@@ -104,7 +104,7 @@ void shellSort(T *a, int size, bool type, TestData &td)
 	td.count++;
 }
 //-----------------------------------------------------------------------------
-template< typename T >                          // Сортировка Шелла [Ciura's d]
+template< typename T >                          // РЎРѕСЂС‚РёСЂРѕРІРєР° РЁРµР»Р»Р° [Ciura's d]
 void superShellSort(T *a, int size, bool type, TestData &td)
 {
 	td.type[td.count] = type;
